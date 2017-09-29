@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+}
+
+jar {
+    baseName = 'csoftz-learn-gradle-jenkins-sonar'
+    version = version
+    manifest {
+        attributes 'Impementation-Title': 'csoftz-learn-gradle-jenkins-sonar',
+        'Impementation-Version': version
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file('jacoco/jacocoTest.exec')
+    }
+    reports.junitXml.destination = file('jacoco/test-results')
+}
+
+jacocoTestReport.dependsOn(test)
